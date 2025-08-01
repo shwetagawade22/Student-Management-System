@@ -49,8 +49,8 @@ It helps showcase your understanding of **database design, relationships (foreig
 ## 🛠️ Tools Used
 
 - **Database**: MySQL
-- **Editor**: MySQL Workbench / VS Code / phpMyAdmin
-- **Optional Visualization**: Excel, Power BI
+- **Editor**: MySQL Workbench 
+
 
 ---
 
