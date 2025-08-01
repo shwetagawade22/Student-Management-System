@@ -1,0 +1,52 @@
+***********List students enrolled in "Mathematics"*******/
+
+
+
+SELECT s.first_name, s.last_name
+FROM Students s
+JOIN Enrollments e ON s.student_id = e.student_id
+JOIN Courses c ON e.course_id = c.course_id
+WHERE c.course_name = 'Mathematics';
+
+
+
+
+/*********Average grade per student (assuming A=4, B=3, C=2...)**********/
+
+SELECT 
+  s.first_name, s.last_name,
+  ROUND(AVG(CASE grade
+      WHEN 'A' THEN 4
+      WHEN 'B' THEN 3
+      WHEN 'C' THEN 2
+      ELSE 0 END), 2) AS GPA
+FROM Students s
+JOIN Grades g ON s.student_id = g.student_id
+GROUP BY s.student_id;
+
+
+
+/************Total students per course**********/
+
+SELECT c.course_name, COUNT(e.student_id) AS total_students
+FROM Courses c
+LEFT JOIN Enrollments e ON c.course_id = e.course_id
+GROUP BY c.course_name;
+
+
+
+/***************Students with <75% attendance in any course****************/
+
+
+SELECT s.first_name, s.last_name, c.course_name,
+  ROUND(SUM(CASE WHEN a.status = 'Present' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS attendance_percentage
+FROM Attendance a
+JOIN Students s ON a.student_id = s.student_id
+JOIN Courses c ON a.course_id = c.course_id
+GROUP BY s.student_id, c.course_id
+HAVING attendance_percentage < 75;
+
+
+
+
+
